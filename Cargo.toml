@@ -1,6 +1,6 @@
 [package]
 name = "brainfuck-cli"
-version = "0.1.5-alpha"
+version = "1.0.0"
 edition = "2021"
 description = "A simple Brainfuck CLI interpreter written in Rust"
 license = "MIT"
