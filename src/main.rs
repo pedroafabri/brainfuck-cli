@@ -1,15 +1,19 @@
 mod interpreter;
 mod file_executor;
+mod repl;
+
 use std::{env, process};
+use repl::ReplSession;
 
 fn main() {
     let args: Vec<String> = env::args().collect();
     match args.len() {
-        1 => { println!("Start REPL."); },
+        1 => { ReplSession::new().start(); },
         2 => { process_argument(&args[1]); },
         _ => { eprintln!("Incorrect usage. Use -h or --help for instructions.") }
     }
     process::exit(0);
+    
 }
 
 fn process_argument(arg: &String) {
@@ -22,7 +26,7 @@ fn process_argument(arg: &String) {
 fn print_help() {
     println!(
         "\
-brainfuck - A simple Brainfuck interpreter written in Rust
+brainfuck v{} - A simple Brainfuck interpreter written in Rust
 
 USAGE:
     brainfuck [file]
@@ -40,6 +44,5 @@ EXAMPLES:
     brainfuck               # Start REPL mode
     brainfuck hello.bf      # Run 'hello.bf' file
     brainfuck --help        # Show this help message
-"
-    );
+", env!("CARGO_PKG_VERSION"));
 }

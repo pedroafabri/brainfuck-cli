@@ -1,6 +1,6 @@
 mod errors;
 
-use std::{collections::HashMap, io::Read};
+use std::{collections::HashMap, io::{Read, Write}};
 use errors::InterpreterError;
 use std::io;
 
@@ -22,6 +22,7 @@ impl BrainfuckInterpreter {
     }
 
     pub fn execute(&mut self, code: &String) -> Result<(), InterpreterError> {
+        self.pc = 0;
         let operands: Vec<char> = code.chars().collect();
         self.map_loops(&operands)?;
         self.run_code(&operands);
@@ -53,7 +54,7 @@ impl BrainfuckInterpreter {
 
     fn run_code(&mut self, chars: &Vec<char>) {
         let instructions_count = chars.len();
-
+        
         while self.pc < instructions_count {
             let ch = chars[self.pc];
             self.process_operand(&ch);
@@ -105,6 +106,7 @@ impl BrainfuckInterpreter {
 
     fn print(&self) {
         print!("{}", self.memory[self.memory_index] as char);
+        io::stdout().flush().unwrap();
     }
 
     fn read(&mut self) {
