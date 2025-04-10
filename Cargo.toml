@@ -1,7 +1,10 @@
 [package]
-name = "brainfuck-repl"
-version = "0.1.0"
+name = "brainfuck-cli"
+version = "0.1.0-alpha"
 edition = "2021"
+description = "A simple Brainfuck CLI interpreter written in Rust"
+license = "MIT"
+repository = "https://github.com/pedroafabri/brainfuck-cli"
 
 [dependencies]
 thiserror = "2.0.12"

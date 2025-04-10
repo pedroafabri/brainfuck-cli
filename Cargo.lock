@@ -3,8 +3,8 @@
 version = 3
 
 [[package]]
-name = "brainfuck-repl"
-version = "0.1.0"
+name = "brainfuck-cli"
+version = "0.1.0-alpha"
 dependencies = [
  "thiserror",
 ]
