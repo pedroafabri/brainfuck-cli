@@ -22,11 +22,23 @@ impl BrainfuckInterpreter {
     }
 
     pub fn execute(&mut self, code: &String) -> Result<(), InterpreterError> {
-        self.pc = 0;
+        self.execution_reset();
         let operands: Vec<char> = code.chars().collect();
         self.map_loops(&operands)?;
         self.run_code(&operands);
         Ok(())
+    }
+
+    pub fn reset(&mut self) {
+        self.memory = [0u8;30_000];
+        self.memory_index = 0;
+        self.loops = HashMap::new();
+        self.pc = 0;
+    }
+
+    fn execution_reset(&mut self) {
+        self.pc = 0;
+        self.loops = HashMap::new();
     }
 
     fn map_loops(&mut self, operands: &Vec<char>) -> Result<(), InterpreterError> {

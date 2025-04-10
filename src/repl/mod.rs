@@ -40,13 +40,14 @@ impl ReplSession {
                     break;
                 }
             }
-            println!("\n");
+            println!("");
         }
     }
 
     fn process_command(&mut self, cmd: &str) -> CommandResult {
         match cmd {
             ".exit" => { return CommandResult::Exit; }
+            ".reset" => { self.reset_state(); }
             ".help" => { self.show_help(); }
             _ => { self.interpreter.execute(&cmd.to_string()).unwrap(); }
         };
@@ -58,6 +59,11 @@ impl ReplSession {
         println!(".help  -> Display this message");
         println!(".reset -> Resets the current Brainfuck interpreter to its initial state");
         println!(".exit  -> Exits this REPL session");
+    }
+
+    fn reset_state(&mut self) {
+        self.interpreter.reset();
+        println!("Interpreter state reset.");
     }
     
 }
