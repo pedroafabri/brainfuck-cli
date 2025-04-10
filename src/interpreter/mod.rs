@@ -103,10 +103,18 @@ impl BrainfuckInterpreter {
     }
 
     fn increment_byte(&mut self) {
+        if self.memory[self.memory_index] == u8::MAX {
+            self.memory[self.memory_index] = u8::MIN;
+            return;
+        }
         self.memory[self.memory_index] += 1;
     }
 
     fn decrement_byte(&mut self) {
+        if self.memory[self.memory_index] == u8::MIN {
+            self.memory[self.memory_index] = u8::MAX;
+            return;
+        }
         self.memory[self.memory_index] -= 1;
     }
 
@@ -134,6 +142,8 @@ impl BrainfuckInterpreter {
 
 #[cfg(test)]
 mod tests {
+    use std::u8;
+
     use super::*;
 
     #[test]
@@ -159,7 +169,7 @@ mod tests {
     #[test]
     fn should_execute() {
         let mut i = BrainfuckInterpreter::new();
-        let r = i.execute(&String::from("+[--++]-"));
+        let r = i.execute(&String::from(">++[<++>-]"));
         assert!(matches!(
             r,
             Ok(())
@@ -218,4 +228,18 @@ mod tests {
         assert_eq!(i.memory[0], 2);
     }
 
+    #[test]
+    fn should_wrap_while_incrementing_byte_value() {
+        let mut i = BrainfuckInterpreter::new();
+        i.execute(&String::from("-")).unwrap();
+        assert_eq!(i.memory[0], u8::MAX);
+    }
+
+    #[test]
+    fn should_wrap_while_decrementing_byte_value() {
+        let mut i = BrainfuckInterpreter::new();
+        i.memory[0] = u8::MAX;
+        i.execute(&String::from("+")).unwrap();
+        assert_eq!(i.memory[0], u8::MIN);
+    }
 }
