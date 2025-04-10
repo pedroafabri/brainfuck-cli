@@ -13,6 +13,8 @@ jobs:
       matrix:
         target:
           - x86_64-unknown-linux-gnu
+          - x86_64-pc-windows-gnu
+          - x86_64-apple-darwin
 
     steps:
       - uses: actions/checkout@v4
@@ -21,14 +23,15 @@ jobs:
         uses: actions-rs/toolchain@v1
         with:
           toolchain: stable
-          target: ${{ matrix.target }}
-          override: true
+
+      - name: Install cross
+        run: cargo install cross
 
       - name: Run tests
-        run: cargo test --verbose
+        run: cross test --target ${{ matrix.target }} --verbose
 
       - name: Build binary
-        run: cargo build --release --target ${{ matrix.target }}
+        run: cross build --release --target ${{ matrix.target }}
 
       - name: Upload release asset
         uses: softprops/action-gh-release@v1

@@ -1,6 +1,6 @@
 [package]
 name = "brainfuck-cli"
-version = "0.1.0-alpha"
+version = "0.1.2-alpha"
 edition = "2021"
 description = "A simple Brainfuck CLI interpreter written in Rust"
 license = "MIT"
@@ -8,3 +8,7 @@ repository = "https://github.com/pedroafabri/brainfuck-cli"
 
 [dependencies]
 thiserror = "2.0.12"
+
+[[bin]]
+name = "brainfuck"
+path = "src/main.rs"
