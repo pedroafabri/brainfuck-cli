@@ -29,7 +29,7 @@ impl ReplSession {
         let mut buffer = String::from("");
 
         loop {
-            print!("> ");
+            print!("bf> ");
             io::stdout().flush().unwrap();
             buffer.clear();
 
