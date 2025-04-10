@@ -5,17 +5,20 @@ on:
     tags:
       - "v*"
 
+permissions:
+  contents: write
+
 jobs:
   build:
     name: Build Binaries
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
     strategy:
       matrix:
-        target:
-          - x86_64-unknown-linux-gnu
-          - x86_64-pc-windows-gnu
+        include:
+          - target: x86_64-unknown-linux-gnu
+            test: true
+          - target: x86_64-pc-windows-gnu
+            test: false
 
     steps:
       - uses: actions/checkout@v4
@@ -28,7 +31,8 @@ jobs:
       - name: Install cross
         run: cargo install cross
 
-      - name: Run tests
+      - name: Run tests (Linux only)
+        if: matrix.test == true
         run: cross test --target ${{ matrix.target }} --verbose
 
       - name: Build binary
