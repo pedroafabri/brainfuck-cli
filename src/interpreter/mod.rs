@@ -21,7 +21,7 @@ impl BrainfuckInterpreter {
         }
     }
 
-    pub fn execute(&mut self, code: String) -> Result<(), InterpreterError> {
+    pub fn execute(&mut self, code: &String) -> Result<(), InterpreterError> {
         let operands: Vec<char> = code.chars().collect();
         self.map_loops(&operands)?;
         self.run_code(&operands);
@@ -125,7 +125,7 @@ mod tests {
     #[test]
     fn should_return_error_when_not_closing_loop() {
         let mut i = BrainfuckInterpreter::new();
-        let r = i.execute(String::from("["));
+        let r = i.execute(&&String::from("["));
         assert!(matches!(
             r,
             Err(InterpreterError::NoMatchingCloseLoop(0))
@@ -135,7 +135,7 @@ mod tests {
     #[test]
     fn should_return_error_when_not_opening_loop() {
         let mut i = BrainfuckInterpreter::new();
-        let r = i.execute(String::from("]"));
+        let r = i.execute(&String::from("]"));
         assert!(matches!(
             r,
             Err(InterpreterError::NoMatchingOpenLoop(0))
@@ -145,7 +145,7 @@ mod tests {
     #[test]
     fn should_execute() {
         let mut i = BrainfuckInterpreter::new();
-        let r = i.execute(String::from("+[--++]-"));
+        let r = i.execute(&String::from("+[--++]-"));
         assert!(matches!(
             r,
             Ok(())
@@ -155,7 +155,7 @@ mod tests {
     #[test]
     fn should_increment_byte_index() {
         let mut i = BrainfuckInterpreter::new();
-        i.execute(String::from(">")).unwrap();
+        i.execute(&String::from(">")).unwrap();
         assert_eq!(i.memory_index, 1);
     }
 
@@ -163,7 +163,7 @@ mod tests {
     fn should_wrap_while_incrementing_byte_index() {
         let mut i = BrainfuckInterpreter::new();
         i.memory_index = i.memory.len() - 1;
-        i.execute(String::from(">")).unwrap();
+        i.execute(&String::from(">")).unwrap();
         assert_eq!(i.memory_index, 0);
     }
 
@@ -171,21 +171,21 @@ mod tests {
     fn should_decrement_byte_index() {
         let mut i = BrainfuckInterpreter::new();
         i.memory_index = 3;
-        i.execute(String::from("<")).unwrap();
+        i.execute(&String::from("<")).unwrap();
         assert_eq!(i.memory_index, 2);
     }
 
     #[test]
     fn should_wrap_while_decrementing_byte_index() {
         let mut i = BrainfuckInterpreter::new();
-        i.execute(String::from("<")).unwrap();
+        i.execute(&String::from("<")).unwrap();
         assert_eq!(i.memory_index, i.memory.len() - 1);
     }
 
     #[test]
     fn should_increment_byte() {
         let mut i = BrainfuckInterpreter::new();
-        i.execute(String::from("+")).unwrap();
+        i.execute(&String::from("+")).unwrap();
         assert_eq!(i.memory[0], 1);
     }
 
@@ -193,14 +193,14 @@ mod tests {
     fn should_decrement_byte() {
         let mut i = BrainfuckInterpreter::new();
         i.memory[0] = 1;
-        i.execute(String::from("-")).unwrap();
+        i.execute(&String::from("-")).unwrap();
         assert_eq!(i.memory[0], 0);
     }
 
     #[test]
     fn should_run_loop() {
         let mut i = BrainfuckInterpreter::new();
-        i.execute(String::from(">++[<+>-]")).unwrap();
+        i.execute(&String::from(">++[<+>-]")).unwrap();
         assert_eq!(i.memory[0], 2);
     }
 
