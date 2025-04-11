@@ -47,13 +47,6 @@ sudo mv brainfuck /usr/local/bin/
 
 Once installed, you can run `brainfuck` from your terminal or command prompt.
 
-
-```bash
-wget https://github.com/pedroafabri/brainfuck-cli/releases/download/vX.Y.Z/brainfuck
-chmod +x brainfuck
-sudo mv brainfuck /usr/local/bin/
-
-
 ---
 
 ## 🧠 Usage
