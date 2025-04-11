@@ -1,6 +1,6 @@
 # Brainfuck CLI
 
-A simple and educational Brainfuck interpreter written in Rust.  
+A simple and educational [Brainfuck](https://en.wikipedia.org/wiki/Brainfuck) interpreter written in Rust.  
 Supports both **file execution** and an **interactive REPL** mode.
 
 ---
